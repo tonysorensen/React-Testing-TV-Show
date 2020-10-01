@@ -13,28 +13,19 @@ export default function App() {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState("");
   const episodes = seasons[selectedSeason] || [];
+  // state for errors
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchShow().then((res) => {
-      setShow(res.data);
-      setSeasons(formatSeasons(res.data._embedded.episodes));
-      // set state with the data
-    });
+    fetchShow()
+      .then((res) => {
+        setShow(res.data);
+        setSeasons(formatSeasons(res.data._embedded.episodes));
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   }, []);
-
-  // useEffect(() => {
-  //   const fetchShow = () => {
-  //     axios
-  //       .get(
-  //         "https://api.tvmaze.com/singlesearch/shows?q=stranger-things&embed=episodes"
-  //       )
-  //       .then(res => {
-  //         setShow(res.data);
-  //         setSeasons(formatSeasons(res.data._embedded.episodes));
-  //       });
-  //   };
-  //   fetchShow();
-  // }, []);
 
   const handleSelect = (e) => {
     setSelectedSeason(e.value);
@@ -55,7 +46,7 @@ export default function App() {
         value={selectedSeason || "Select a season"}
         placeholder="Select an option"
       />
-      <Episodes episodes={episodes} />
+      <Episodes error={error} episodes={episodes} />
     </div>
   );
 }
