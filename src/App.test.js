@@ -10,10 +10,13 @@ jest.mock("./api/fetchShow.js");
 test("App fetches episode data from the api and renders it", () => {
   // Arrange
   mockFetchShow.mockResolvedValueOnce(data);
-  const {} = render(<App />);
+  const { getByText } = render(<App />);
+
   // Act
 
   // Assert
+
+  expect(getByText(/fetching data/i)).toBeInTheDocument();
 });
 
 const data = [

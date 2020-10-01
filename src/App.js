@@ -36,12 +36,11 @@ export default function App() {
   }
 
   return (
-    <div className="App">
+    <div data-testid="app" className="App">
       <img className="poster-img" src={show.image.original} alt={show.name} />
       <h1>{show.name}</h1>
       {parse(show.summary)}
       <Dropdown
-        data-testid="select"
         options={Object.keys(seasons)}
         onChange={handleSelect}
         value={selectedSeason || "Select a season"}
